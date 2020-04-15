@@ -23,26 +23,16 @@ public class Server {
 
         public void handle(HttpExchange t) throws IOException {
 
-            String response = null;
-//            String term = t.getRequestURI().getQuery();
+            String uri = t.getRequestURI().getQuery();
+            String method = t.getRequestMethod();
 
-            if ("GET".equals(t.getRequestMethod())){
-                String term = t.getRequestURI().getQuery().split("=")[1];
-                if (t.getRequestURI().getQuery().split("=")[0].equals("isbn")){
-                    response = Services.search(term);
-                }
-                else {
-                    response = Services.viewList(term);
-                }
-            }
+            InputStreamReader rdr = new InputStreamReader(t.getRequestBody(), StandardCharsets.UTF_8);
+            Stream<String> query = new BufferedReader(rdr).lines();
+            StringBuilder sb = new StringBuilder();
+            query.forEach(s -> sb.append(s).append("\n"));
+            String body = sb.toString();
 
-            else if ("POST".equals(t.getRequestMethod()) ){
-                InputStreamReader rdr = new InputStreamReader(t.getRequestBody(), StandardCharsets.UTF_8);
-                Stream<String> query = new BufferedReader(rdr).lines();
-                StringBuilder sb = new StringBuilder();
-                query.forEach(s -> sb.append(s).append("\n"));
-                response = Services.add(sb.toString());
-            }
+            String response= Parser.parser(method,uri,body);
 
             t.sendResponseHeaders(200, response.length());
             OutputStream os = t.getResponseBody();
