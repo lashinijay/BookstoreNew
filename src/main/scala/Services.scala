@@ -1,8 +1,8 @@
-import com.google.gson.{Gson, GsonBuilder}
+import com.google.gson.GsonBuilder
 
 object Services {
 
-  val gson: Gson = new GsonBuilder().setPrettyPrinting().create
+  val gson = new GsonBuilder().setPrettyPrinting.create
 
   def viewList(term: String): String = {
     val res = BooksDAO.viewlist(term)
@@ -13,6 +13,7 @@ object Services {
   def search(title: String): String = {
     val res = BooksDAO.bookdetails(title)
     val response = gson.toJson(res)
+    println("book")
     response
   }
 
