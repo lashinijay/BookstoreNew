@@ -7,6 +7,6 @@ object BookList {
   val book4 = Book("234-0-340-999-734","Paradise Bay","James G.",3600)
   val book5 = Book("34-9088-5512-8","The Leopard","Jo Nesbo",1500)
   val book6 = Book("190-76-664-12","The Sun","N. Roberts",255.90)
-  var ls = ListBuffer(book1,book2,book3,book4,book5,book6)
+  var list = ListBuffer(book1,book2,book3,book4,book5,book6)
 }
 
