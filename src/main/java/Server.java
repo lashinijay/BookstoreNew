@@ -1,6 +1,7 @@
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
+import scala.collection.mutable.ListBuffer;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -32,7 +33,8 @@ public class Server {
             query.forEach(s -> sb.append(s).append("\n"));
             String body = sb.toString();
 
-            String response= Parser.parser(method,uri,body);
+//            String response= Parser.parser(method,uri,body);
+            String response = Controller.controller(Parser.parser(method,uri,body));
 
             t.sendResponseHeaders(200, response.length());
             OutputStream os = t.getResponseBody();
