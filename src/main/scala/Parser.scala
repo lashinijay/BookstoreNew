@@ -1,15 +1,33 @@
+import java.util
+
+import com.google.gson.GsonBuilder
+
+import scala.collection.mutable.ListBuffer
+
 object Parser {
 
-  def parser(method: String , uri :String, body :String): String = {
-    var response = ""
-    if ("GET" == method){
+  def parser(method:String,uri:String,body:String)={
+    var buf = ListBuffer(method)
+    if ("GET" == method) {
+      val term = uri.split("=")(0)
       val name = uri.split("=")(1)
-      if (uri.split("=")(0) == "isbn") Services.search(name)
-      else Services.viewList(name)
+      buf += term
+      buf += name
     }
-    else if ("POST" == method)
-        Services.add(body)
-    else "Enter a valid URL"
+    else if ("POST"==method){
+      buf += body
+    }
+    else buf
+  }
+
+  val gson = new GsonBuilder().setPrettyPrinting().create
+
+  def toJson(res:util.List[Book]): String = {
+    gson.toJson(res)
+  }
+
+  def fromJson(sb:String) = {
+    gson.fromJson(sb,classOf[Book])
   }
 
 }
