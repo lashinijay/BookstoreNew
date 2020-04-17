@@ -1,26 +1,23 @@
-import com.google.gson.GsonBuilder
+import scala.jdk.CollectionConverters._
 
 object Services {
 
-  val gson = new GsonBuilder().setPrettyPrinting.create
-
   def viewList(term: String): String = {
-    val res = BooksDAO.viewlist(term)
-    val response = gson.toJson(res)
-    response
+    val res = BookList.ls.filter(book => book.author == term || book.title == term).asJava
+    if (res.isEmpty) "No entry was found"
+    else  Parser.toJson(res)
   }
 
-  def search(title: String): String = {
-    val res = BooksDAO.bookdetails(title)
-    val response = gson.toJson(res)
-    println("book")
-    response
+  def search(isbn: String): String = {
+    val res = BookList.ls.filter(book => book.isbn == isbn).asJava
+    if (res.isEmpty) "No entry was found"
+    else  Parser.toJson(res)
   }
 
   def add(sb: String): String = {
-    val res = BooksDAO.addbook(gson.fromJson(sb, classOf[Book]))
-    val response = gson.toJson(res)
-    response
+    val book = Parser.fromJson(sb)
+    val res = (BookList.ls += book).asJava
+    Parser.toJson(res)
   }
 
 }
