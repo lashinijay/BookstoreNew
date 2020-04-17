@@ -12,22 +12,15 @@ object Parser {
       val term = uri.split("=")(0)
       val name = uri.split("=")(1)
       buf += term
-      buf += name
-    }
+      buf += name }
     else if ("POST"==method){
-      buf += body
-    }
-    else buf
-  }
+      buf += body }
+    else buf }
 
   val gson = new GsonBuilder().setPrettyPrinting().create
 
-  def toJson(res:util.List[Book]): String = {
-    gson.toJson(res)
-  }
+  def toJson(res:util.List[Book]): String = {gson.toJson(res)}
 
-  def fromJson(sb:String) = {
-    gson.fromJson(sb,classOf[Book])
-  }
+  def fromJson(sb:String) = {gson.fromJson(sb,classOf[Book])}
 
 }
