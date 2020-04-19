@@ -1,23 +1,13 @@
+import java.util
+
 import scala.jdk.CollectionConverters._
 
 object Services {
 
-  def viewList(term: String): String = {
-    val res = BookList.list.filter(book => book.author == term || book.title == term).asJava
-    if (res.isEmpty) "No entry was found"
-    else  Parser.toJson(res)
-  }
+  def viewList(term: String): util.List[Book] = BookList.list.filter(book => book.author == term || book.title == term).asJava
 
-  def search(isbn: String): String = {
-    val res = BookList.list.filter(book => book.isbn == isbn).asJava
-    if (res.isEmpty) "No entry was found"
-    else  Parser.toJson(res)
-  }
+  def search(isbn: String): util.List[Book] = BookList.list.filter(book => book.isbn == isbn).asJava
 
-  def add(sb: String): String = {
-    val book = Parser.fromJson(sb)
-    val res = (BookList.list += book).asJava
-    Parser.toJson(res)
-  }
+  def add(book: Book): util.List[Book] =  (BookList.list += book).asJava
 
 }
