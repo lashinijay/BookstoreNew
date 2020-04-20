@@ -11,11 +11,12 @@ object Controller {
         val res = Services.search(name)
         if (res.isEmpty) "No entry was found"
         else  Parser.toJson(res)}
-      else{
+      else if(term.equals("author")||term.equals("title")){
         val res = Services.viewList(name)
         if (res.isEmpty) "No entry was found"
-        else  Parser.toJson(res)
-      }}
+        else  Parser.toJson(res)}
+      else "Invalid Request"
+    }
     else if (method.equals("POST")) {
       val book = Parser.fromJson(bs(1))
       val res = Services.add(book)
