@@ -32,7 +32,7 @@ public class Server {
             query.forEach(s -> sb.append(s).append("\n"));
             String body = sb.toString();
 
-            String response = Controller.controller(Parser.parser(method,uri,body));
+            String response = Controller.controller(method,uri,body);
 
             t.sendResponseHeaders(200, response.length());
             OutputStream os = t.getResponseBody();
